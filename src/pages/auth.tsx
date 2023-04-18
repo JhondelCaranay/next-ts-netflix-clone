@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
+import { getSession, signIn } from "next-auth/react";
 import Input from "@/components/Input";
 import { useCallback, useState } from "react";
+import axios from "axios";
+import { NextPageContext } from "next";
 
 type Props = {};
 
@@ -8,7 +11,7 @@ const Auth = (props: Props) => {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const [variant, setVariant] = useState("login");
@@ -18,31 +21,31 @@ const Auth = (props: Props) => {
   }, []);
 
   const login = useCallback(async () => {
-    // try {
-    //   await signIn('credentials', {
-    //     email,
-    //     password,
-    //     redirect: false,
-    //     callbackUrl: '/'
-    //   });
-    //   router.push('/profiles');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        // callbackUrl: "/", // optional
+      });
+      router.push("/profiles");
+    } catch (error) {
+      console.log(error);
+    }
   }, [email, password, router]);
 
   const register = useCallback(async () => {
-    // try {
-    //   await axios.post('/api/register', {
-    //     email,
-    //     name,
-    //     password
-    //   });
-    //   login();
-    // } catch (error) {
-    //     console.log(error);
-    // }
-  }, [email, username, password, login]);
+    try {
+      await axios.post("/api/register", {
+        email,
+        name,
+        password,
+      });
+      login();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-fixed bg-cover">
@@ -60,10 +63,10 @@ const Auth = (props: Props) => {
               {variant === "register" && (
                 <Input
                   type="text"
-                  id="username"
-                  label="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
+                  id="name"
+                  label="Name"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                 />
               )}
               <Input
@@ -108,3 +111,20 @@ const Auth = (props: Props) => {
   );
 };
 export default Auth;
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
