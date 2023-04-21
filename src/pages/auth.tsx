@@ -3,7 +3,12 @@ import { getSession, signIn } from "next-auth/react";
 import Input from "@/components/Input";
 import { useCallback, useState } from "react";
 import axios from "axios";
-import { NextPageContext } from "next";
+import { GetServerSideProps, NextPageContext } from "next";
+
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 type Props = {};
 
@@ -93,6 +98,22 @@ const Auth = (props: Props) => {
               {variant === "login" ? "Login" : "Sign up"}
             </button>
 
+            {/* social login buttons */}
+            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+              <div
+                onClick={() => signIn("google", { callbackUrl: "/profiles" })}
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+              >
+                <FcGoogle size={32} />
+              </div>
+              <div
+                onClick={() => signIn("github", { callbackUrl: "/profiles" })}
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+              >
+                <FaGithub size={32} />
+              </div>
+            </div>
+
             {/* navigations */}
             <p className="text-neutral-500 mt-12">
               {variant === "login" ? "First time using Netflix?" : "Already have an account?"}
@@ -112,8 +133,8 @@ const Auth = (props: Props) => {
 };
 export default Auth;
 
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   if (session) {
     return {
@@ -125,6 +146,8 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 
   return {
-    props: {},
+    props: {
+      session,
+    },
   };
-}
+};
