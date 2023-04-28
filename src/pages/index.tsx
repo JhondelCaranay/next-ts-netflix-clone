@@ -5,12 +5,14 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import Navbar from "@/components/Navbar";
 import Billboard from "@/components/Billboard";
+import useMovieList from "@/hooks/useMovieList";
+import MovieList from "@/components/MovieList";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   // const { data: user } = useCurrentUser();
   const { data: movies = [] } = useMovieList();
-  const { data: favorites = [] } = useFavorites();
+  // const { data: favorites = [] } = useFavorites();
   // const {isOpen, closeModal} = useInfoModalStore();
 
   return (
@@ -19,7 +21,7 @@ export default function Home() {
       <Billboard />
       <div className="pb-40">
         <MovieList title="Trending Now" data={movies} />
-        <MovieList title="My List" data={favorites} />
+        {/* <MovieList title="My List" data={favorites} /> */}
       </div>
     </>
   );
