@@ -2,64 +2,25 @@ import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { signOut } from "next-auth/react";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import Navbar from "@/components/Navbar";
+import Billboard from "@/components/Billboard";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { data: user } = useCurrentUser();
+  // const { data: user } = useCurrentUser();
+  const { data: movies = [] } = useMovieList();
+  const { data: favorites = [] } = useFavorites();
+  // const {isOpen, closeModal} = useInfoModalStore();
+
   return (
     <>
       <Navbar />
-      <div className="bg-gray-500"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
-      <div className="h-96"></div>
+      <Billboard />
+      <div className="pb-40">
+        <MovieList title="Trending Now" data={movies} />
+        <MovieList title="My List" data={favorites} />
+      </div>
     </>
   );
 }
