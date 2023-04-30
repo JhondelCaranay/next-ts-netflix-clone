@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import serverAuth from "@/lib/serverAuth";
+import Roles from "@/lib/roles";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -9,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     await serverAuth(req, res);
+    await Roles(req, res, { allowed_roles: ["ALL"] });
 
     const moviesCount = await prisma.movie.count();
     const randomIndex = Math.floor(Math.random() * moviesCount);

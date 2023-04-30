@@ -3,11 +3,16 @@ import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import prisma from "./prisma";
+import { StatusCodes } from "http-status-codes";
 
 const serverAuth = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions);
 
-  if (!session?.user?.email) {
+  if (!session) {
+    throw new Error("Not signed in");
+  }
+
+  if (!session.user.email) {
     throw new Error("Not signed in");
   }
 
@@ -18,8 +23,10 @@ const serverAuth = async (req: NextApiRequest, res: NextApiResponse) => {
     select: {
       id: true,
       name: true,
+      role: true,
       email: true,
       image: true,
+      favoriteIds: true,
       createdAt: true,
     },
   });

@@ -1,12 +1,15 @@
 import fetcher from "@/lib/fetcher";
+import { Role } from "@prisma/client";
 import useSwr from "swr";
 
 export type CurrentUser = {
+  image: string | null;
+  favoriteIds: string[];
   id: string;
   name: string;
-  email: string;
-  image: string;
-  createdAt: string;
+  email: string | null;
+  createdAt: Date;
+  role: Role;
 };
 
 const useCurrentUser = () => {
