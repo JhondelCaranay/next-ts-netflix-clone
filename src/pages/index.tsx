@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const { data: movies = [], error } = useMovieList();
   const { data: favorites = [] } = useFavorites();
-  const { data: currentUser } = useCurrentUser();
+  // const { data: currentUser } = useCurrentUser();
   if (error) {
     console.log(error);
   }
@@ -25,7 +25,7 @@ export default function Home() {
       <Navbar />
       <Billboard />
       <div className="pb-40">
-        <pre className="text-white">{JSON.stringify(currentUser?.favoriteIds, null, 2)}</pre>
+        {/* <pre className="text-white">{JSON.stringify(currentUser?.favoriteIds, null, 2)}</pre> */}
         <MovieList title="Trending Now" data={movies} />
         <MovieList title="My List" data={favorites} />
       </div>
