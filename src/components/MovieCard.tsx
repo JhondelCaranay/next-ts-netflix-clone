@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { BsChevronDown, BsFillPlayFill } from "react-icons/bs";
 import FavoriteButton from "./FavoriteButton";
 import useInfoModalStore from "@/hooks/useInfoModalStore";
+import Image from "next/image";
 
 type MovieCardProps = {
   data: MovieType;
@@ -16,7 +17,7 @@ const MovieCard = ({ data }: MovieCardProps) => {
 
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
-      <img
+      <Image
         onClick={redirectToWatch}
         src={data.thumbnailUrl}
         alt="Movie"
@@ -34,6 +35,12 @@ const MovieCard = ({ data }: MovieCardProps) => {
       w-full
       h-[12vw]
     "
+        width={0}
+        height={0}
+        priority
+        sizes="(max-width: 768px) 100vw,
+        (max-width: 1200px) 50vw,
+        33vw"
       />
       <div
         className="
@@ -54,7 +61,7 @@ const MovieCard = ({ data }: MovieCardProps) => {
       group-hover:opacity-100
     "
       >
-        <img
+        <Image
           onClick={redirectToWatch}
           src={data.thumbnailUrl}
           alt="Movie"
@@ -69,6 +76,11 @@ const MovieCard = ({ data }: MovieCardProps) => {
         w-full
         h-[12vw]
       "
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 100vw,
+          (max-width: 1200px) 50vw,
+          33vw"
         />
         <div
           className="

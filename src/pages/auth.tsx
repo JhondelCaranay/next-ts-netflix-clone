@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Image from "next/image";
 
 type Props = {};
 
@@ -35,7 +36,9 @@ const Auth = (props: Props) => {
       });
       router.push("/profiles");
     } catch (error) {
-      console.log(error);
+      console.log({ error });
+      setEmail("");
+      setPassword("");
     }
   }, [email, password, router]);
 
@@ -46,7 +49,7 @@ const Auth = (props: Props) => {
         name,
         password,
       });
-      login();
+      await login();
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +59,17 @@ const Auth = (props: Props) => {
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-fixed bg-cover">
       <div className="bg-black w-full h-full lg:bg-opacity-50">
         <nav className="px-12 py-5">
-          <img src="/images/logo.png" alt="logo" className="h-12" />
+          {/* <img src="/images/logo.png" alt="logo" className="h-12" />- */}
+          <div className="relative h-12">
+            <Image
+              src={"/images/logo.png"}
+              alt="logo"
+              className="object-contain object-left"
+              fill
+              // sizes="100vw"
+              priority
+            />
+          </div>
         </nav>
         <div className="flex justify-center">
           <div className="bg-black/70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">

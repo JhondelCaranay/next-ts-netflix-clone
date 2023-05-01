@@ -43,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   // signOut({ callbackUrl: "/auth" }); callbackUrl not required if redirecting to /auth in server side
+
   if (!session) {
     return {
       redirect: {
@@ -51,6 +52,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
+  console.log("getServerSession --- ", { session });
 
   return {
     props: {

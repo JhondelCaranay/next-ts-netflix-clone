@@ -65,8 +65,8 @@ export const authOptions: NextAuthOptions = {
       // if (isNewUser)console.log("🚀 jwt ~ isNewUser:", isNewUser);
       // if (profile)console.log("🚀 jwt ~ profile:", profile);
       // if (account)console.log("🚀 jwt ~ account:", account);
-      // if (user) console.log("🚀 jwt ~ user:", user);
-      // if (token) console.log("🚀 jwt ~ token:", token);
+      if (user) console.log("🚀 jwt ~ user:", user);
+      if (token) console.log("🚀 jwt ~ token:", token);
 
       // token is not undefined when session is strategy is set to "jwt"
 
@@ -81,25 +81,25 @@ export const authOptions: NextAuthOptions = {
     session({ session, user, newSession, token, trigger }) {
       // if (trigger) console.log("🚀 session ~ trigger:", trigger);
       // if (newSession) console.log("🚀 session ~ newSession:", newSession);
-      //  if (session) console.log("🚀 session ~ session:", session);
-      // if (token) console.log("🚀 session ~ token:", token);
-      // if (user) console.log("🚀 session ~ user:", user);
+      // if (session) console.log("🚀 session ~ session:", session);
+      if (token) console.log("🚀 session ~ token:", token);
+      if (user) console.log("🚀 session ~ user:", user);
 
       //   user is not undefined when session is strategy is set to "database"
 
       // strategy is set to "database"
-      session.user.id = user.id;
-      session.user.role = user.role;
+      // session.user.id = user.id;
+      // session.user.role = user.role;
 
       // strategy is set to "jwt"
-      // session.user.id = token.id;
-      // session.user.role = token.role;
+      session.user.id = token.id;
+      session.user.role = token.role;
       return session;
     },
   },
   debug: process.env.NODE_ENV === "development",
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "database" },
+  session: { strategy: "jwt" },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
