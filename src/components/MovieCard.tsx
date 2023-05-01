@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { BsChevronDown, BsFillPlayFill } from "react-icons/bs";
 import FavoriteButton from "./FavoriteButton";
+import useInfoModalStore from "@/hooks/useInfoModalStore";
 
 type MovieCardProps = {
   data: MovieType;
@@ -9,7 +10,7 @@ type MovieCardProps = {
 
 const MovieCard = ({ data }: MovieCardProps) => {
   const router = useRouter();
-  // const { openModal } = useInfoModalStore();
+  const { openModal } = useInfoModalStore();
 
   const redirectToWatch = useCallback(() => router.push(`/watch/${data.id}`), [router, data.id]);
 
@@ -91,7 +92,7 @@ const MovieCard = ({ data }: MovieCardProps) => {
             </div>
             <FavoriteButton movieId={data.id} />
             <div
-              // onClick={() => openModal(data?.id)}
+              onClick={() => openModal(data?.id)}
               className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300"
             >
               <BsChevronDown className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />

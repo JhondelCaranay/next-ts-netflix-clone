@@ -1,4 +1,4 @@
 teck stack
-    prisma, MongoDB, nextauth, ts, tailwind
+    prisma, MongoDB, nextauth, ts, tailwind, zustand
 
 npm install @prisma/client

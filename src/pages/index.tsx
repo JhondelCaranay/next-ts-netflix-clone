@@ -8,6 +8,8 @@ import Billboard from "@/components/Billboard";
 import useMovieList from "@/hooks/useMovieList";
 import MovieList from "@/components/MovieList";
 import useFavorites from "@/hooks/useFavorites";
+import InfoModal from "@/components/InfoModal";
+import useInfoModalStore from "@/hooks/useInfoModalStore";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -18,10 +20,11 @@ export default function Home() {
     console.log(error);
   }
 
-  // const {isOpen, closeModal} = useInfoModalStore();
+  const { isOpen, closeModal } = useInfoModalStore();
 
   return (
     <>
+      <InfoModal visible={isOpen} onClose={closeModal} />
       <Navbar />
       <Billboard />
       <div className="pb-40">
